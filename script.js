@@ -2,7 +2,7 @@ const apiBaseUrl = "https://web-production-c4c73.up.railway.app/";  // 替换为
 let orderList = [];
 
 async function fetchMenu() {
-    const res = await fetch(`${apiBaseUrl}/railway`);
+    const res = await fetch(`${apiBaseUrl}/menu`);
     const menu = await res.json();
     const menuDiv = document.getElementById("menu");
     menuDiv.innerHTML = "";
