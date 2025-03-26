@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情侣点菜</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>情侣点菜</h1>
+    <div id="menu"></div>
+    <div id="add-item">
+        <h2>添加新菜品</h2>
+        <form id="add-item-form" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="菜品名称" required>
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">添加菜品</button>
+        </form>
+    </div>
+    <div id="cart">
+        <h2>已点清单</h2>
+        <ul id="order-list"></ul>
+    </div>
+    <button id="checkout-btn">结算</button>
+    <script src="script.js"></script>
+</body>
+</html>
