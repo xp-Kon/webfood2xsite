@@ -2,20 +2,24 @@ const apiBaseUrl = "https://web-production-c4c73.up.railway.app";  // 替换为�
 let orderList = [];
 
 async function fetchMenu() {
-    const res = await fetch(`${apiBaseUrl}/menu`);
-    const menu = await res.json();
-    const menuDiv = document.getElementById("menu");
-    menuDiv.innerHTML = "";
-    menu.forEach(item => {
-        const div = document.createElement("div");
-        div.classList.add("menu-item");
-        div.innerHTML = `
-            <img src="${apiBaseUrl}${item.image_url}" alt="${item.name}" />
-            <p>${item.name}</p>
-            <button onclick="addToCart('${item.name}')">点菜</button>
-        `;
-        menuDiv.appendChild(div);
-    });
+    fetch("https://web-production-c4c73.up.railway.app/menu")
+    .then(response => response.json())
+    .then(data => {
+        let menuContainer = document.getElementById("menu");
+        menuContainer.innerHTML = ""; // 清空菜单
+        data.forEach(item => {
+            let menuItem = document.createElement("div");
+            menuItem.className = "menu-item";
+            menuItem.innerHTML = `
+                <img src="https://web-production-c4c73.up.railway.app${item.image_url}" alt="${item.name}" class="menu-image">
+                <p>${item.name}</p>
+                <button onclick="addToCart('${item.id}', '${item.name}')">点菜</button>
+            `;
+            menuContainer.appendChild(menuItem);
+        });
+    })
+    .catch(error => console.error("加载菜单出错：", error));
+
 }
 
 function addToCart(itemName) {
@@ -44,21 +48,23 @@ document.getElementById("checkout-btn").addEventListener("click", async () => {
     alert(result.message);
 });
 
-document.getElementById("add-item-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const res = await fetch(`${apiBaseUrl}/add_item`, {
+document.getElementById("addItemForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    
+    let formData = new FormData();
+    formData.append("name", document.getElementById("name").value);
+    formData.append("image", document.getElementById("image").files[0]);
+
+    fetch("https://web-production-c4c73.up.railway.app/add_item", {
         method: "POST",
         body: formData
-    });
-    if (res.ok) {
-        alert("菜品添加成功！");
-        form.reset();
-        fetchMenu();
-    } else {
-        alert("添加菜品失败！");
-    }
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        location.reload(); // 刷新页面
+    })
+    .catch(error => console.error("上传菜品失败：", error));
 });
 
 fetchMenu();
