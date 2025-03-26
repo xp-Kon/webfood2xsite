@@ -1,4 +1,4 @@
-const apiBaseUrl = "https://your-railway-app.up.railway.app";  // 替换为后端部署的URL
+const apiBaseUrl = "https://web-production-c4c73.up.railway.app/";  // 替换为后端部署的URL
 let orderList = [];
 
 async function fetchMenu() {
